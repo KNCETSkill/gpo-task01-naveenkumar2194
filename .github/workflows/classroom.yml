@@ -27,7 +27,11 @@ jobs:
       - name: Run All Test Cases
         run: |
           score=0
+          max_score=50
+          all_passed=true
+          tests=()
 
+          # Define test function
           test() {
             input=$1
             expected=$2
@@ -36,16 +40,28 @@ jobs:
             if [ "$output" = "$expected" ]; then
               echo "PASS: Input=$input Output=$output"
               score=$((score+10))
+              tests+=("{\"name\":\"Input $input\",\"score\":10,\"max_score\":10,\"output\":\"PASS\"}")
             else
               echo "FAIL: Input=$input Expected=$expected Got=$output"
-              exit 1
+              all_passed=false
+              tests+=("{\"name\":\"Input $input\",\"score\":0,\"max_score\":10,\"output\":\"FAIL: Expected $expected Got $output\"}")
             fi
           }
 
+          # Run all test cases
           test 220 Medium
           test 400 Large
           test 150 Small
           test 200 Medium
           test 350 Medium
 
-          echo "🎯 TOTAL SCORE: $score / 50"
+          # Human-readable total score
+          echo "🎯 TOTAL SCORE: $score / $max_score"
+
+          # Generate results.json for GitHub Classroom
+          echo "{\"tests\": [$(IFS=,; echo "${tests[*]}")]}" > results.json
+
+          # Fail workflow if any test failed
+          if [ "$all_passed" = false ]; then
+            exit 1
+          fi
