@@ -15,7 +15,7 @@ public class BrewSizeAdvisor {
                 System.out.println("Medium");
             }
             else if (volume >350){
-                System.out.println("large");
+                System.out.println("Large");
             }
         }
         // TODO:
