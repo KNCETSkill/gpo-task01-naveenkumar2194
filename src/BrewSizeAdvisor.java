@@ -11,10 +11,10 @@ public class BrewSizeAdvisor {
             if (volume < 200){
                 System.out.println("Small");
             }
-            else if ((volume >= 200) && (volume <=350)){
-                System.out.println("Medium");
+            elif ((volume >= 200) && (volume <=350)){
+                system.out.println("Medium");
             }
-            else if (volume >350){
+            elif (volume >350){
                 System.out.println("large");
             }
         }
@@ -23,3 +23,5 @@ public class BrewSizeAdvisor {
         // based on the given volume
 
         sc.close();
+    }
+}
